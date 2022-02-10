@@ -23,6 +23,6 @@ COPY ./sysmtemd/node_exporter.service /usr/lib/systemd/system/node_exporter.serv
 # Blackbox exporter
 COPY ./blackbox.yml /etc/blackbox_exporter/blackbox.yml
 COPY ./blackbox_exporter /etc/sysconfig/blackbox_exporter
-COPY ./sysmtemd/node_exporter.service /usr/lib/systemd/system/blackbox_exporter.service
+COPY ./sysmtemd/blackbox_exporter.service /usr/lib/systemd/system/blackbox_exporter.service
 
 WORKDIR /var/www

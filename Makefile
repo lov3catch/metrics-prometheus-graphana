@@ -1,18 +1,15 @@
-rebuild:
-	docker-compose down
-	docker-compose build
-	docker-compose up -d
-
 reload-systemctl:
 	systemctl daemon-reload
 	systemctl start node_exporter
 	systemctl enable node_exporter
+	systemctl start blackbox_exporter
+	systemctl enable blackbox_exporter
+
+rebuild:
+	docker-compose down
+	docker-compose build
+	docker-compose up -d
+	docker-compose exec app make reload-systemctl
 
 prom-check-config:
 	docker-compose exec metric promtool check config /etc/prometheus/prometheus.yml
-
-run-node-exporter:
-	docker-compose exec app node_exporter --collector.textfile.directory=/tmp/node_exporter
-
-run-blackbox-exporter:
-	docker-compose exec app blackbox_exporter --config.file=/etc/blackbox_exporter/blackbox.yml
