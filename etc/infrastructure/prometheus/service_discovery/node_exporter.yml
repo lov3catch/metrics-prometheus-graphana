@@ -1,0 +1,4 @@
+- targets:
+    - "app:9100"
+  labels:
+    sd: file

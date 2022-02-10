@@ -26,6 +26,7 @@ services:
             - "9090"
         volumes:
             - ./etc/infrastructure/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+            - ./etc/infrastructure/prometheus/service_discovery/node_exporter.yml:/etc/prometheus/service_discovery/node_exporter.yml
     grafana:
         container_name: grafana
         image: grafana/grafana:5.1.0
