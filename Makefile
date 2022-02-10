@@ -8,6 +8,9 @@ reload-systemctl:
 	systemctl start node_exporter
 	systemctl enable node_exporter
 
+prom-check-config:
+	docker-compose exec metric promtool check config /etc/prometheus/prometheus.yml
+
 run-node-exporter:
 	docker-compose exec app node_exporter --collector.textfile.directory=/tmp/node_exporter
 
