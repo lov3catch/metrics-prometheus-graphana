@@ -1,0 +1,33 @@
+modules:
+  http_slurm:
+    prober: http
+    timeout: 2s
+    http:
+      preferred_ip_protocol: ip4
+      valid_http_versions: [ "HTTP/1.1", "HTTP/2.0" ]
+      valid_status_codes: [ 200 ]
+      fail_if_not_ssl: true
+      method: GET
+  icmp_v4_slurm:
+    prober: icmp
+    icmp:
+      preferred_ip_protocol: ip4
+    timeout: 3s
+  icmp_v6_slurm:
+    prober: icmp
+    icmp:
+      preferred_ip_protocol: ip6
+    timeout: 3s
+  dns_slurm:
+    prober: dns
+    timeout: 2s
+    dns:
+      query_name: app.promorepublic.com
+      preferred_ip_protocol: ip4
+  tcp_slurm:
+    prober: tcp
+    timeout: 2s
+    tcp:
+      query_response:
+        - expect: "^SSH-2.0-"
+      preferred_ip_protocol: ip4

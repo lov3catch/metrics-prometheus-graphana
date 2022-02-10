@@ -1,0 +1,43 @@
+version: '3'
+services:
+    app:
+        container_name: app
+        build: etc/infrastructure/php
+        volumes:
+            - .:/var/www:cached
+            - ./etc/infrastructure/php/install/node_exporter.sh:/scripts/node_exporter.sh
+        restart: on-failure
+        tty: true
+        ports:
+            - "8000:8000"
+            - "9100:9100"
+            - "9115:9115"
+        expose:
+            - "9000"
+        working_dir: /var/www
+        entrypoint: "php -S 0.0.0.0:8000 -t ."
+    metric:
+        container_name: metric
+        image: prom/prometheus
+        restart: always
+        ports:
+            - "9090:9090"
+        expose:
+            - "9090"
+        volumes:
+            - ./etc/infrastructure/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    grafana:
+        container_name: grafana
+        image: grafana/grafana:5.1.0
+        restart: always
+        links:
+            - metric
+        ports:
+            - "3000:3000"
+        user: "104"
+    composer:
+        container_name: composer
+        image: composer/composer
+        volumes:
+            - .:/app
+        command: install

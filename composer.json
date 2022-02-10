@@ -1,0 +1,17 @@
+{
+    "name": "root/app",
+    "autoload": {
+        "psr-4": {
+            "Root\\App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ihor Kopyl",
+            "email": "lov3catch@gmail.com"
+        }
+    ],
+    "require": {
+        "promphp/prometheus_client_php": "^2.4"
+    }
+}

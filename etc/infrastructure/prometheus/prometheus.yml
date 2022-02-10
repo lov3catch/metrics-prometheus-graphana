@@ -1,0 +1,89 @@
+global:
+  scrape_interval: 15s
+
+  # Attach these labels to any time series or alerts when communicating with
+  # external systems (federation, remote storage, Alertmanager).
+  external_labels:
+    monitor: 'codelab-monitor'
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+
+    # Override the global default and scrape targets from this job every 5 seconds.
+    scrape_interval: 5s
+
+    metrics_path: /metrics
+
+    static_configs:
+      - targets: [ 'metric:9090' ]
+  - job_name: 'blackbox-http'
+    metrics_path: /probe
+    params:
+      module: [ http_slurm ]
+    static_configs:
+      - targets:
+        - "https://app.promorepublic.com"
+    relabel_configs:
+      # В source label __address__ содержится адрес exporter – тот, который задается в targets. Данная часть конфига копирует значение из __address__ (по сути, из targets) в __param_target. Это преобразование добавляет второй параметр, target, к запросу.
+      - source_labels: [ __address__ ]
+        target_label: __param_target
+      # В этой части мы значение из label __param_target записываем в instance. Это преобразование нужно, чтобы проверка каждого ресурса в label instance в качестве значения имела адрес этого ресурса.
+      - source_labels: [ __param_target ]
+        target_label: instance
+      # Так как в targets у нас указаны адреса проверяемых ресурсов, то нужно сказать, как подключаться к exporter. Для этого в label: __address__ записываем адрес Blackbox.
+      - target_label: __address__
+        replacement: app:9115
+  - job_name: 'blackbox-icmp'
+    metrics_path: /probe
+    params:
+      module: [ icmp_v4_slurm ]
+    static_configs:
+      - targets:
+        - "app.promorepublic.com"
+    relabel_configs:
+      # В source label __address__ содержится адрес exporter – тот, который задается в targets. Данная часть конфига копирует значение из __address__ (по сути, из targets) в __param_target. Это преобразование добавляет второй параметр, target, к запросу.
+      - source_labels: [ __address__ ]
+        target_label: __param_target
+      # В этой части мы значение из label __param_target записываем в instance. Это преобразование нужно, чтобы проверка каждого ресурса в label instance в качестве значения имела адрес этого ресурса.
+      - source_labels: [ __param_target ]
+        target_label: instance
+      # Так как в targets у нас указаны адреса проверяемых ресурсов, то нужно сказать, как подключаться к exporter. Для этого в label: __address__ записываем адрес Blackbox.
+      - target_label: __address__
+        replacement: app:9115
+  - job_name: 'blackbox-dns_slurm'
+    metrics_path: /probe
+    params:
+      module: [ dns_slurm ]
+    static_configs:
+      - targets:
+          - "148.251.52.110"
+    relabel_configs:
+      # В source label __address__ содержится адрес exporter – тот, который задается в targets. Данная часть конфига копирует значение из __address__ (по сути, из targets) в __param_target. Это преобразование добавляет второй параметр, target, к запросу.
+      - source_labels: [ __address__ ]
+        target_label: __param_target
+      # В этой части мы значение из label __param_target записываем в instance. Это преобразование нужно, чтобы проверка каждого ресурса в label instance в качестве значения имела адрес этого ресурса.
+      - source_labels: [ __param_target ]
+        target_label: instance
+      # Так как в targets у нас указаны адреса проверяемых ресурсов, то нужно сказать, как подключаться к exporter. Для этого в label: __address__ записываем адрес Blackbox.
+      - target_label: __address__
+        replacement: app:9115
+  - job_name: 'blackbox-tcp_slurm'
+    metrics_path: /probe
+    params:
+      module: [ tcp_slurm ]
+    static_configs:
+      - targets:
+          - "148.251.52.110"
+    relabel_configs:
+      # В source label __address__ содержится адрес exporter – тот, который задается в targets. Данная часть конфига копирует значение из __address__ (по сути, из targets) в __param_target. Это преобразование добавляет второй параметр, target, к запросу.
+      - source_labels: [ __address__ ]
+        target_label: __param_target
+      # В этой части мы значение из label __param_target записываем в instance. Это преобразование нужно, чтобы проверка каждого ресурса в label instance в качестве значения имела адрес этого ресурса.
+      - source_labels: [ __param_target ]
+        target_label: instance
+      # Так как в targets у нас указаны адреса проверяемых ресурсов, то нужно сказать, как подключаться к exporter. Для этого в label: __address__ записываем адрес Blackbox.
+      - target_label: __address__
+        replacement: app:9115

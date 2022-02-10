@@ -1,0 +1,1 @@
+- [ ] Настроить systemctl. При `systemctl start node_exporter` ошибка `No escaped character`
