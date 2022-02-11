@@ -27,6 +27,14 @@ services:
         volumes:
             - ./etc/infrastructure/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
             - ./etc/infrastructure/prometheus/service_discovery/node_exporter.yml:/etc/prometheus/service_discovery/node_exporter.yml
+    pushgateway:
+        image: prom/pushgateway
+        container_name: pushgateway
+        restart: unless-stopped
+        expose:
+            - "9091"
+        ports:
+            - "9091:9091"
     grafana:
         container_name: grafana
         image: grafana/grafana:5.1.0
