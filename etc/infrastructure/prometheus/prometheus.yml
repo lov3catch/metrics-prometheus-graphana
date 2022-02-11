@@ -93,3 +93,14 @@ scrape_configs:
       # Так как в targets у нас указаны адреса проверяемых ресурсов, то нужно сказать, как подключаться к exporter. Для этого в label: __address__ записываем адрес Blackbox.
       - target_label: __address__
         replacement: app:9115
+  - job_name: 'openstack'
+    openstack_sd_configs:
+    - identity_endpoint: https://api.selvpc.ru/identity/v3
+      port: 9100
+      domain_name: '82113'
+      username: 's011616' # s00000
+      project_name: 'project-s011616' # project-s00000
+      password: 'db4539f4' # совпадает с ssh паролем
+      role: 'instance'
+      region: 'ru-3' # ru-3
+      refresh_interval: 30s
