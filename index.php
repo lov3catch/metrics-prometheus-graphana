@@ -14,6 +14,15 @@ $counter->incBy(3, ['blue']);
 $gauge = $registry->getOrRegisterGauge('test', 'some_gauge', 'it sets', ['type']);
 $gauge->set(2.5, ['blue']);
 
+$gauge = $registry->getOrRegisterGauge('test', 'relabel', 'it sets', ['meta_openstack_tag', 'team']);
+$gauge->set(5.5, ['db', 'developing']);
+
+$gauge = $registry->getOrRegisterGauge('test', 'relabel', 'it sets', ['meta_openstack_tag', 'team']);
+$gauge->set(3.5, ['back', 'developing']);
+
+$gauge = $registry->getOrRegisterGauge('test', 'relabel', 'it sets', ['meta_openstack_tag', 'team']);
+$gauge->set(4.5, ['front', 'developing']);
+
 $histogram = $registry->getOrRegisterHistogram('test', 'some_histogram', 'it observes', ['type'], [0.1, 1, 2, 3.5, 4, 5, 6, 7, 8, 9]);
 $histogram->observe(3.5, ['blue']);
 

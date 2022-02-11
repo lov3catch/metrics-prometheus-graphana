@@ -25,6 +25,18 @@ scrape_configs:
 
     static_configs:
       - targets: [ 'app:8000' ]
+    relabel_configs:
+      - source_labels: [ team ]
+        regex: '(.*)ing'
+        replacement: '${1}'
+        target_label: team
+        action: replace
+      - source_labels: [ meta_openstack_tag ]
+        regex: db|back
+        action: keep
+      - source_labels: [ meta_openstack_tag ]
+        regex: front
+        action: drop
   - job_name: 'blackbox-http'
     metrics_path: /probe
     params:
