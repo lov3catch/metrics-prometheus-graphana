@@ -13,3 +13,7 @@ rebuild:
 
 prom-check-config:
 	docker-compose exec metric promtool check config /etc/prometheus/prometheus.yml
+
+prom-check-rule:
+	docker-compose exec metric promtool check rules /etc/prometheus/rules/example.rules.yml
+	docker-compose exec metric promtool check rules /etc/prometheus/alert/example.alert.yml

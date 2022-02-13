@@ -26,6 +26,9 @@ services:
             - "9090"
         volumes:
             - ./etc/infrastructure/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+            - ./etc/infrastructure/prometheus/rules/example.rules.yml:/etc/prometheus/rules/example.rules.yml
+            - ./etc/infrastructure/prometheus/alert/example.alert.yml:/etc/prometheus/alert/example.alert.yml
+            - ./etc/infrastructure/prometheus/alertmanager/example.alertmanager.yml:/etc/prometheus/alertmanager/example.alertmanager.yml
             - ./etc/infrastructure/prometheus/service_discovery/node_exporter.yml:/etc/prometheus/service_discovery/node_exporter.yml
     pushgateway:
         image: prom/pushgateway
@@ -35,9 +38,17 @@ services:
             - "9091"
         ports:
             - "9091:9091"
+    alertmanager:
+        image: prom/alertmanager
+        container_name: alertmanager
+        restart: unless-stopped
+        expose:
+            - "9093"
+        ports:
+            - "9093:9093"
     grafana:
         container_name: grafana
-        image: grafana/grafana:5.1.0
+        image: grafana/grafana:8.3.5
         restart: always
         links:
             - metric
